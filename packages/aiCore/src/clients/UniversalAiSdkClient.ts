@@ -6,6 +6,7 @@
 import { generateObject, generateText, streamObject, streamText } from 'ai'
 
 import { ApiClientFactory } from './ApiClientFactory'
+import { ProviderOptions } from './types'
 
 /**
  * 通用 AI SDK 客户端
@@ -14,16 +15,19 @@ import { ApiClientFactory } from './ApiClientFactory'
 export class UniversalAiSdkClient {
   constructor(
     private readonly providerId: string,
-    private readonly options: any = {}
+    private readonly options: ProviderOptions
   ) {}
 
   /**
    * 流式文本生成
    * 直接使用 AI SDK 的 streamText 参数类型
    */
-  async streamText(modelId: string, params: Omit<Parameters<typeof streamText>[0], 'model'>) {
+  async streamText(
+    modelId: string,
+    params: Omit<Parameters<typeof streamText>[0], 'model'>
+  ): Promise<ReturnType<typeof streamText>> {
     const model = await ApiClientFactory.createClient(this.providerId, modelId, this.options)
-    return await streamText({
+    return streamText({
       model,
       ...params
     })
@@ -33,9 +37,12 @@ export class UniversalAiSdkClient {
    * 生成文本
    * 直接使用 AI SDK 的 generateText 参数类型
    */
-  async generateText(modelId: string, params: Omit<Parameters<typeof generateText>[0], 'model'>) {
+  async generateText(
+    modelId: string,
+    params: Omit<Parameters<typeof generateText>[0], 'model'>
+  ): Promise<ReturnType<typeof generateText>> {
     const model = await ApiClientFactory.createClient(this.providerId, modelId, this.options)
-    return await generateText({
+    return generateText({
       model,
       ...params
     })
@@ -45,7 +52,10 @@ export class UniversalAiSdkClient {
    * 生成结构化对象
    * 直接使用 AI SDK 的 generateObject 参数类型
    */
-  async generateObject(modelId: string, params: Omit<Parameters<typeof generateObject>[0], 'model'>) {
+  async generateObject(
+    modelId: string,
+    params: Omit<Parameters<typeof generateObject>[0], 'model'>
+  ): Promise<ReturnType<typeof generateObject>> {
     const model = await ApiClientFactory.createClient(this.providerId, modelId, this.options)
     return await generateObject({
       model,
@@ -57,9 +67,12 @@ export class UniversalAiSdkClient {
    * 流式生成结构化对象
    * 直接使用 AI SDK 的 streamObject 参数类型
    */
-  async streamObject(modelId: string, params: Omit<Parameters<typeof streamObject>[0], 'model'>) {
+  async streamObject(
+    modelId: string,
+    params: Omit<Parameters<typeof streamObject>[0], 'model'>
+  ): Promise<ReturnType<typeof streamObject>> {
     const model = await ApiClientFactory.createClient(this.providerId, modelId, this.options)
-    return await streamObject({
+    return streamObject({
       model,
       ...params
     })

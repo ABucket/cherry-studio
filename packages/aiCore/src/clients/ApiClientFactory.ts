@@ -6,6 +6,7 @@
 import type { LanguageModelV1 } from 'ai'
 
 import { aiProviderRegistry } from '../providers/registry'
+import { ProviderOptions } from './types'
 
 // 客户端配置接口
 export interface ClientConfig {
@@ -37,7 +38,7 @@ export class ApiClientFactory {
   static async createClient(
     providerId: string,
     modelId: string = 'default',
-    options: any = {}
+    options: ProviderOptions
   ): Promise<LanguageModelV1> {
     try {
       // 验证provider是否支持
