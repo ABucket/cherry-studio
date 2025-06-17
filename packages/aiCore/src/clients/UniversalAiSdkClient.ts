@@ -3,9 +3,10 @@
  * 基于现有实现的简化版统一AI SDK客户端
  */
 
-import { generateText, streamText } from 'ai'
+import { CoreMessage, generateText, GenerateTextResult, streamText, StreamTextResult } from 'ai'
 
 import { aiProviderRegistry } from '../providers/registry'
+import { AiCoreRequest, ProviderOptions } from './types'
 
 /**
  * Universal AI SDK Client
@@ -18,7 +19,7 @@ export class UniversalAiSdkClient {
 
   constructor(
     private providerName: string,
-    private options: any // API keys, etc.
+    private options: ProviderOptions
   ) {}
 
   /**
@@ -42,7 +43,7 @@ export class UniversalAiSdkClient {
 
       if (typeof creatorFunction !== 'function') {
         throw new Error(
-          `Creator function "${this.providerConfig.creatorFunctionName}" not found in the imported module for provider "${this.providerName}".`
+          `Creator function "${this.providerConfig.creatorFunctionName}" not found in the imported module for provider "${this.options.name}".`
         )
       }
 
@@ -75,13 +76,13 @@ export class UniversalAiSdkClient {
       return this.provider(modelId)
     }
 
-    throw new Error(`Unknown model access pattern for provider "${this.providerName}"`)
+    throw new Error(`Unknown model access pattern for provider "${this.options.name}"`)
   }
 
   /**
    * 实现流式逻辑，使用核心ai-sdk函数
    */
-  async stream(request: any): Promise<any> {
+  async stream(request: AiCoreRequest): Promise<StreamTextResult<any, any>> {
     if (!this.initialized) await this.initialize()
 
     const model = this.getModel(request.modelId)
@@ -96,7 +97,7 @@ export class UniversalAiSdkClient {
   /**
    * 实现非流式逻辑
    */
-  async generate(request: any): Promise<any> {
+  async generate(request: AiCoreRequest): Promise<GenerateTextResult<any, any>> {
     if (!this.initialized) await this.initialize()
 
     const model = this.getModel(request.modelId)
@@ -113,7 +114,7 @@ export class UniversalAiSdkClient {
   validateConfig(): boolean {
     try {
       // 基础验证
-      if (!this.providerName) return false
+      if (!this.options.name) return false
       if (!this.providerConfig) return false
 
       // API Key验证（如果需要）
@@ -133,7 +134,7 @@ export class UniversalAiSdkClient {
   private requiresApiKey(): boolean {
     // 大多数云服务Provider都需要API Key
     const noApiKeyProviders = ['local', 'ollama'] // 本地运行的Provider
-    return !noApiKeyProviders.includes(this.providerName)
+    return !noApiKeyProviders.includes(this.options.name)
   }
 
   /**
@@ -162,7 +163,10 @@ export class UniversalAiSdkClient {
 }
 
 // 工厂函数，方便创建客户端
-export async function createUniversalClient(providerName: string, options: any = {}): Promise<UniversalAiSdkClient> {
+export async function createUniversalClient(
+  providerName: string,
+  options: ProviderOptions
+): Promise<UniversalAiSdkClient> {
   const client = new UniversalAiSdkClient(providerName, options)
   await client.initialize()
   return client
@@ -172,9 +176,9 @@ export async function createUniversalClient(providerName: string, options: any =
 export async function streamGeneration(
   providerName: string,
   modelId: string,
-  messages: any[],
-  options: any = {}
-): Promise<any> {
+  messages: CoreMessage[],
+  options: any
+): Promise<StreamTextResult<any, any>> {
   const client = await createUniversalClient(providerName, options)
 
   return client.stream({
@@ -188,9 +192,9 @@ export async function streamGeneration(
 export async function generateCompletion(
   providerName: string,
   modelId: string,
-  messages: any[],
+  messages: CoreMessage[],
   options: any = {}
-): Promise<any> {
+): Promise<GenerateTextResult<any, any>> {
   const client = await createUniversalClient(providerName, options)
 
   return client.generate({

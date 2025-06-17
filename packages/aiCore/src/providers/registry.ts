@@ -46,6 +46,12 @@ export class AiProviderRegistry {
         creatorFunctionName: 'createOpenAI'
       },
       {
+        id: 'openai-compatible',
+        name: 'OpenAI Compatible',
+        import: () => import('@ai-sdk/openai-compatible'),
+        creatorFunctionName: 'createOpenAICompatible'
+      },
+      {
         id: 'anthropic',
         name: 'Anthropic',
         import: () => import('@ai-sdk/anthropic'),
@@ -152,6 +158,30 @@ export class AiProviderRegistry {
         name: 'Vercel',
         import: () => import('@ai-sdk/vercel'),
         creatorFunctionName: 'createVercel'
+      },
+      {
+        id: 'qwen',
+        name: 'Qwen',
+        import: () => import('qwen-ai-provider'),
+        creatorFunctionName: 'createQwen'
+      },
+      {
+        id: 'ollama',
+        name: 'Ollama',
+        import: () => import('ollama-ai-provider'),
+        creatorFunctionName: 'createOllama'
+      },
+      {
+        id: 'anthropic-vertex',
+        name: 'Anthropic Vertex',
+        import: () => import('anthropic-vertex-ai'),
+        creatorFunctionName: 'createAnthropicVertex'
+      },
+      {
+        id: 'openrouter',
+        name: 'OpenRouter',
+        import: () => import('@openrouter/ai-sdk-provider'),
+        creatorFunctionName: 'createOpenRouter'
       }
     ]
 
