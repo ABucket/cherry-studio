@@ -2,8 +2,8 @@
   "name": "@cherry-studio/ai-core",
   "version": "1.0.0",
   "description": "Cherry Studio AI Core - Unified AI Provider Interface Based on Vercel AI SDK",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
   "scripts": {
     "build": "tsdown",
     "dev": "tsc -w",
@@ -41,12 +41,12 @@
     "@ai-sdk/togetherai": "^0.2.14",
     "@ai-sdk/vercel": "^0.0.1",
     "@ai-sdk/xai": "^1.2.16",
+    "@openrouter/ai-sdk-provider": "^0.1.0",
     "ai": "^4.3.16",
     "anthropic-vertex-ai": "^1.0.2",
     "ollama-ai-provider": "^1.2.0",
     "qwen-ai-provider": "^0.1.0",
-    "zhipu-ai-provider": "^0.1.1",
-    "@openrouter/ai-sdk-provider": "^0.1.0"
+    "zhipu-ai-provider": "^0.1.1"
   },
   "peerDependenciesMeta": {
     "@ai-sdk/amazon-bedrock": {
@@ -116,10 +116,9 @@
   ],
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js",
-      "require": "./dist/index.js"
+      "types": "./src/index.ts",
+      "import": "./src/index.ts",
+      "require": "./src/index.ts"
     }
-  },
-  "packageManager": "pnpm"
+  }
 }
