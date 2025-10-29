@@ -376,6 +376,14 @@ export const Topics: React.FC<Props> = ({ assistant: _assistant, activeTopic, se
             key: 'markdown_reason',
             onClick: () => exportTopicAsMarkdown(topic, true)
           },
+          exportMenuOptions.html && {
+            label: t('chat.topics.export.html'),
+            key: 'html',
+            onClick: async () => {
+              const markdown = await topicToMarkdown(topic)
+              window.api.export.toHtml(markdown, removeSpecialCharactersForFileName(topic.name))
+            }
+          },
           exportMenuOptions.docx && {
             label: t('chat.topics.export.word'),
             key: 'word',
@@ -460,6 +468,7 @@ export const Topics: React.FC<Props> = ({ assistant: _assistant, activeTopic, se
     exportMenuOptions.image,
     exportMenuOptions.markdown,
     exportMenuOptions.markdown_reason,
+    exportMenuOptions.html,
     exportMenuOptions.docx,
     exportMenuOptions.notion,
     exportMenuOptions.yuque,

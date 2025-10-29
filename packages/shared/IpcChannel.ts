@@ -198,6 +198,7 @@ export enum IpcChannel {
   FileService_Retrieve = 'file-service:retrieve',
 
   Export_Word = 'export:word',
+  Export_Html = 'export:html',
 
   Shortcuts_Update = 'shortcuts:update',
 

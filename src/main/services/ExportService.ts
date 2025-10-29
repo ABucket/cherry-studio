@@ -405,4 +405,273 @@ export class ExportService {
       throw error
     }
   }
+
+  private getHtmlTemplate(title: string, content: string): string {
+    return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${title}</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background-color: #fff;
+      padding: 40px 20px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      margin: 24px 0 16px;
+      font-weight: 600;
+      line-height: 1.25;
+      color: #1a1a1a;
+    }
+
+    h1 {
+      font-size: 2em;
+      border-bottom: 2px solid #eaecef;
+      padding-bottom: 0.3em;
+    }
+
+    h2 {
+      font-size: 1.5em;
+      border-bottom: 1px solid #eaecef;
+      padding-bottom: 0.3em;
+    }
+
+    h3 { font-size: 1.25em; }
+    h4 { font-size: 1em; }
+    h5 { font-size: 0.875em; }
+    h6 { font-size: 0.85em; color: #6a737d; }
+
+    p {
+      margin: 16px 0;
+    }
+
+    a {
+      color: #0366d6;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    code {
+      background-color: rgba(27, 31, 35, 0.05);
+      border-radius: 3px;
+      font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+      font-size: 85%;
+      padding: 0.2em 0.4em;
+    }
+
+    pre {
+      background-color: #f6f8fa;
+      border-radius: 6px;
+      padding: 16px;
+      overflow: auto;
+      line-height: 1.45;
+      margin: 16px 0;
+    }
+
+    pre code {
+      background-color: transparent;
+      padding: 0;
+      font-size: 100%;
+    }
+
+    blockquote {
+      border-left: 4px solid #dfe2e5;
+      color: #6a737d;
+      padding: 0 15px;
+      margin: 16px 0;
+    }
+
+    blockquote > :first-child {
+      margin-top: 0;
+    }
+
+    blockquote > :last-child {
+      margin-bottom: 0;
+    }
+
+    ul, ol {
+      padding-left: 2em;
+      margin: 16px 0;
+    }
+
+    li {
+      margin: 4px 0;
+    }
+
+    li > p {
+      margin: 0;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin: 16px 0;
+      overflow: auto;
+      display: block;
+    }
+
+    table th {
+      font-weight: 600;
+      background-color: #f6f8fa;
+      padding: 6px 13px;
+      border: 1px solid #dfe2e5;
+    }
+
+    table td {
+      padding: 6px 13px;
+      border: 1px solid #dfe2e5;
+    }
+
+    table tr {
+      background-color: #fff;
+      border-top: 1px solid #c6cbd1;
+    }
+
+    table tr:nth-child(2n) {
+      background-color: #f6f8fa;
+    }
+
+    hr {
+      height: 2px;
+      padding: 0;
+      margin: 24px 0;
+      background-color: #e1e4e8;
+      border: 0;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    strong {
+      font-weight: 600;
+    }
+
+    em {
+      font-style: italic;
+    }
+
+    del {
+      text-decoration: line-through;
+    }
+
+    @media print {
+      body {
+        padding: 0;
+      }
+
+      pre {
+        page-break-inside: avoid;
+      }
+
+      table {
+        page-break-inside: avoid;
+      }
+    }
+
+    @media (prefers-color-scheme: dark) {
+      body {
+        background-color: #0d1117;
+        color: #c9d1d9;
+      }
+
+      h1, h2, h3, h4, h5 {
+        color: #c9d1d9;
+      }
+
+      h1, h2 {
+        border-bottom-color: #21262d;
+      }
+
+      h6 {
+        color: #8b949e;
+      }
+
+      a {
+        color: #58a6ff;
+      }
+
+      code {
+        background-color: rgba(110, 118, 129, 0.4);
+      }
+
+      pre {
+        background-color: #161b22;
+      }
+
+      blockquote {
+        border-left-color: #3b434b;
+        color: #8b949e;
+      }
+
+      table th {
+        background-color: #161b22;
+        border-color: #30363d;
+      }
+
+      table td {
+        border-color: #30363d;
+      }
+
+      table tr {
+        background-color: #0d1117;
+        border-top-color: #21262d;
+      }
+
+      table tr:nth-child(2n) {
+        background-color: #161b22;
+      }
+
+      hr {
+        background-color: #21262d;
+      }
+    }
+  </style>
+</head>
+<body>
+${content}
+</body>
+</html>`
+  }
+
+  public exportToHtml = async (_: Electron.IpcMainInvokeEvent, markdown: string, fileName: string): Promise<void> => {
+    try {
+      // Convert markdown to HTML
+      const htmlContent = this.md.render(markdown)
+
+      // Wrap in template with styling
+      const fullHtml = this.getHtmlTemplate(fileName, htmlContent)
+
+      const filePath = dialog.showSaveDialogSync({
+        title: '保存文件',
+        filters: [{ name: 'HTML Document', extensions: ['html'] }],
+        defaultPath: fileName
+      })
+
+      if (filePath) {
+        await fileStorage.writeFile(_, filePath, Buffer.from(fullHtml, 'utf-8'))
+        logger.debug('HTML document exported successfully')
+      }
+    } catch (error) {
+      logger.error('Export to HTML failed:', error as Error)
+      throw error
+    }
+  }
 }

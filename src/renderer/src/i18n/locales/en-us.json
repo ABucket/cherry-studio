@@ -805,6 +805,7 @@
           "label": "Export as markdown",
           "reason": "Export as Markdown (with reasoning)"
         },
+        "html": "Export as HTML",
         "notes": "Export to Notes",
         "notion": "Export to Notion",
         "obsidian": "Export to Obsidian",
@@ -2898,6 +2899,7 @@
       },
       "export_menu": {
         "docx": "Export as Word",
+        "html": "Export as HTML",
         "image": "Export as Image",
         "joplin": "Export to Joplin",
         "markdown": "Export as Markdown",

@@ -805,6 +805,7 @@
           "label": "导出为 Markdown",
           "reason": "导出为 Markdown (包含思考)"
         },
+        "html": "导出为 HTML",
         "notes": "导出到笔记",
         "notion": "导出到 Notion",
         "obsidian": "导出到 Obsidian",
@@ -2898,6 +2899,7 @@
       },
       "export_menu": {
         "docx": "导出为 Word",
+        "html": "导出为 HTML",
         "image": "导出为图片",
         "joplin": "导出到 Joplin",
         "markdown": "导出为 Markdown",

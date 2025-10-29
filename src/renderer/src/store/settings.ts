@@ -182,6 +182,7 @@ export interface SettingsState {
     image: boolean
     markdown: boolean
     markdown_reason: boolean
+    html: boolean
     notion: boolean
     yuque: boolean
     joplin: boolean
@@ -363,6 +364,7 @@ export const initialState: SettingsState = {
     image: true,
     markdown: true,
     markdown_reason: true,
+    html: true,
     notion: true,
     yuque: true,
     joplin: true,

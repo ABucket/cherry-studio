@@ -360,6 +360,15 @@ const MessageMenubar: FC<Props> = (props) => {
             key: 'markdown_reason',
             onClick: () => exportMessageAsMarkdown(message, true)
           },
+          exportMenuOptions.html && {
+            label: t('chat.topics.export.html'),
+            key: 'html',
+            onClick: async () => {
+              const markdown = messageToMarkdown(message)
+              const title = await getMessageTitle(message)
+              window.api.export.toHtml(markdown, title)
+            }
+          },
           exportMenuOptions.docx && {
             label: t('chat.topics.export.word'),
             key: 'word',
@@ -436,6 +445,7 @@ const MessageMenubar: FC<Props> = (props) => {
   }, [
     dropdownRootAllowKeys,
     exportMenuOptions.docx,
+    exportMenuOptions.html,
     exportMenuOptions.image,
     exportMenuOptions.joplin,
     exportMenuOptions.markdown,

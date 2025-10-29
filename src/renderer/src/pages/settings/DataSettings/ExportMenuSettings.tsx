@@ -51,6 +51,12 @@ const ExportMenuOptions: FC = () => {
       <SettingDivider />
 
       <SettingRow>
+        <SettingRowTitle>{t('settings.data.export_menu.html')}</SettingRowTitle>
+        <Switch checked={exportMenuOptions.html} onChange={(checked) => handleToggleOption('html', checked)} />
+      </SettingRow>
+      <SettingDivider />
+
+      <SettingRow>
         <SettingRowTitle>{t('settings.data.export_menu.notion')}</SettingRowTitle>
         <Switch checked={exportMenuOptions.notion} onChange={(checked) => handleToggleOption('notion', checked)} />
       </SettingRow>

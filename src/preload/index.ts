@@ -208,7 +208,8 @@ const api = {
     readText: (pathOrUrl: string): Promise<string> => ipcRenderer.invoke(IpcChannel.Fs_ReadText, pathOrUrl)
   },
   export: {
-    toWord: (markdown: string, fileName: string) => ipcRenderer.invoke(IpcChannel.Export_Word, markdown, fileName)
+    toWord: (markdown: string, fileName: string) => ipcRenderer.invoke(IpcChannel.Export_Word, markdown, fileName),
+    toHtml: (markdown: string, fileName: string) => ipcRenderer.invoke(IpcChannel.Export_Html, markdown, fileName)
   },
   obsidian: {
     getVaults: () => ipcRenderer.invoke(IpcChannel.Obsidian_GetVaults),

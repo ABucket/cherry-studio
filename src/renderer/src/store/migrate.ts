@@ -2667,6 +2667,20 @@ const migrateConfig = {
       logger.error('migrate 162 error', error as Error)
       return state
     }
+  },
+  '163': (state: RootState) => {
+    try {
+      // Add HTML export option to existing users
+      if (state.settings && state.settings.exportMenuOptions) {
+        if (typeof state.settings.exportMenuOptions.html === 'undefined') {
+          state.settings.exportMenuOptions.html = true
+        }
+      }
+      return state
+    } catch (error) {
+      logger.error('migrate 163 error', error as Error)
+      return state
+    }
   }
 }
 
